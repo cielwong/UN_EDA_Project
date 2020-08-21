@@ -1,0 +1,77 @@
+```{r}
+library(psych)
+data <- TrainingSet
+names(data)[1] <- "Country_Name"
+data$Country_Name <- as.character(data$Country_Name)
+data$Country_Name <- data$Country.Name
+a <- 1:37
+b <- 40
+data <- subset(data, select = c(a,b))
+names(data)[2:37] <- c(1972:2007)
+str(data)
+```
+```{r}
+library(reshape)
+mdata <- melt(data, id=c("Country_Name","Series.Name"))
+```
+```{r}
+names(mdata)[3] <- "Year"
+mdata
+```
+```{r}
+table <- cast(mdata,Year + Country_Name ~ Series.Name)
+table
+```
+
+```{r}
+listn<- data.frame("Name"=character(),"Num"=integer())
+counter <- 0
+for (cname in unique(data$Country_Name)){
+  counter = counter +1
+  temp <- table$Country_Name == cname
+  count <- sum(is.na(table[temp,]))
+  listn[counter,"Name"]<-cname
+  listn[counter,"Num"]<-count
+}
+```
+
+```{r}
+library(plyr)
+listn <- head(arrange(listn,Num), n = 10)
+listn
+```
+
+```{r}
+df <- table[0,]
+for (cname in listn$Name){
+  crita <- table$Country_Name == cname
+  temp <- table[crita,]
+  df<-rbind (df,temp)
+}
+df
+```
+
+```{r}
+df1 <- df[,colSums(is.na(df)) == 0]
+df1
+```
+
+```{r}
+listl <- data.frame("Name"=character(),"Num"=integer())
+for (item in names(df1)){
+  crita <- df1[item] == 0
+  temp <- data.frame("Name"=item,"Num"=sum(crita))
+  listl<-rbind(listl,temp)
+}
+df1 <- df1[,listl[(listl$Num == 0),"Name"]]
+df1
+```
+
+```{r}
+listl$Name
+```
+```{r}
+library(xlsx)
+write.csv(listl,file = "C:/Users/10331/OneDrive/Desktop/mydata.csv")
+```
+
