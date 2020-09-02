@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
 
 
 ```{r}
@@ -76,203 +81,44 @@ lista <- lista [c(94,85,135,136,153,244,245,29,146,149)]
 lista
 ```
 ```{r}
-df1 <- df1[, lista]
+df1 <- df1[, c('Country_Name',lista)]
+df1
 ```
 
-```{r}
-Mexico <- df1[1:36,]
-Philippines <- df1[37:72,]
-Morocco <- df1[73:108,]
-Peru <- df1[109:144,]
-Indonesia <- df1[145:180,]
-Colombia <- df1[181:216,]
-CostaRica <- df1[217:252,]
-Venezuela <- df1[253:288,]
-Tunisia <- df1[289:324,]
-Ecuador <- df1[325:360,]
-
-rownames(Mexico) <- c(1972:2007)
-rownames(Philippines) <- c(1972:2007)
-rownames(Morocco) <- c(1972:2007)
-rownames(Peru) <- c(1972:2007)
-rownames(Indonesia) <- c(1972:2007)
-rownames(Colombia) <- c(1972:2007)
-rownames(CostaRica) <- c(1972:2007)
-rownames(Venezuela) <- c(1972:2007)
-rownames(Tunisia) <- c(1972:2007)
-rownames(Ecuador) <- c(1972:2007)
-
-Mexico
-Philippines
-Morocco
-Peru
-Indonesia
-Colombia
-CostaRica
-Venezuela
-Tunisia
-Ecuador
-```
-```{r}
-describe(Mexico)
-describe(Philippines)
-describe(Morocco)
-describe(Peru)
-describe(Indonesia)
-describe(Colombia)
-describe(CostaRica)
-describe(Venezuela)
-describe(Tunisia)
-describe(Ecuador)
-```
-```{r}
-pairs(Mexico)
-c<-cor(Mexico)
-library(ggcorrplot)
-ggcorrplot(c)
-```
-```{r}
-pairs(Philippines)
-c<-cor(Philippines)
-library(ggcorrplot)
-ggcorrplot(c)
-```
-```{r}
-pairs(Morocco)
-c<-cor(Morocco)
-library(ggcorrplot)
-ggcorrplot(c)
-```
 
 ```{r}
-pairs(Peru)
-c<-cor(Peru)
-library(ggcorrplot)
-ggcorrplot(c)
-```
-
-```{r}
-pairs(Indonesia)
-c<-cor(Indonesia)
-library(ggcorrplot)
-ggcorrplot(c)
-```
-
-```{r}
-pairs(Colombia)
-c<-cor(Colombia)
-library(ggcorrplot)
-ggcorrplot(c)
-```
-
-```{r}
-pairs(CostaRica)
-c<-cor(CostaRica)
-library(ggcorrplot)
-ggcorrplot(c)
-```
-
-```{r}
-pairs(Venezuela)
-c<-cor(Venezuela)
-library(ggcorrplot)
-ggcorrplot(c)
-```
-
-```{r}
-pairs(Tunisia)
-c<-cor(Tunisia)
-library(ggcorrplot)
-ggcorrplot(c)
+for (cname in listn$Name){
+  crita <- df1$Country_Name == cname
+  temp <- df1[crita,]
+  temp <- temp[,2:ncol(temp)]
+  rownames(temp) <- c(1972:2007)
+  print(describe(temp))
+}
 ```
 ```{r}
-pairs(Ecuador)
-c<-cor(Ecuador)
-library(ggcorrplot)
-ggcorrplot(c)
+for (cname in listn$Name){
+  crita <- df1$Country_Name == cname
+  temp <- df1[crita,]
+  temp <- temp[,2:ncol(temp)]
+  pairs(temp)
+  c<-cor(temp)
+  library(ggcorrplot)
+  print(ggcorrplot(c))
+}
 ```
 
 ```{r}
 library(ggplot2)
 
-gdata <- data.frame(Mexico)
-names(gdata) <- c("GDP","Food","Life-F","Life-M","Infant","65-F","65-M","CO2","Exports","Import")
-gdata<-scale(gdata)
-gdata <- as.data.frame.table(gdata)
-names(gdata) <- c("Year","Indicator","Value")
-ggplot(gdata, aes(Year, Value,group=Indicator)) + geom_line(aes(color=Indicator))
-```
-
-```{r}
-gdata <- data.frame(Philippines)
-names(gdata) <- c("GDP","Food","Life-F","Life-M","Infant","65-F","65-M","CO2","Exports","Import")
-gdata<-scale(gdata)
-gdata <- as.data.frame.table(gdata)
-names(gdata) <- c("Year","Indicator","Value")
-ggplot(gdata, aes(Year, Value,group=Indicator)) + geom_line(aes(color=Indicator))
-```
-
-```{r}
-gdata <- data.frame(Morocco)
-names(gdata) <- c("GDP","Food","Life-F","Life-M","Infant","65-F","65-M","CO2","Exports","Import")
-gdata<-scale(gdata)
-gdata <- as.data.frame.table(gdata)
-names(gdata) <- c("Year","Indicator","Value")
-ggplot(gdata, aes(Year, Value,group=Indicator)) + geom_line(aes(color=Indicator))
-```
-```{r}
-gdata <- data.frame(Peru)
-names(gdata) <- c("GDP","Food","Life-F","Life-M","Infant","65-F","65-M","CO2","Exports","Import")
-gdata<-scale(gdata)
-gdata <- as.data.frame.table(gdata)
-names(gdata) <- c("Year","Indicator","Value")
-ggplot(gdata, aes(Year, Value,group=Indicator)) + geom_line(aes(color=Indicator))
-```
-```{r}
-gdata <- data.frame(Indonesia)
-names(gdata) <- c("GDP","Food","Life-F","Life-M","Infant","65-F","65-M","CO2","Exports","Import")
-gdata<-scale(gdata)
-gdata <- as.data.frame.table(gdata)
-names(gdata) <- c("Year","Indicator","Value")
-ggplot(gdata, aes(Year, Value,group=Indicator)) + geom_line(aes(color=Indicator))
-```
-```{r}
-gdata <- data.frame(Colombia)
-names(gdata) <- c("GDP","Food","Life-F","Life-M","Infant","65-F","65-M","CO2","Exports","Import")
-gdata<-scale(gdata)
-gdata <- as.data.frame.table(gdata)
-names(gdata) <- c("Year","Indicator","Value")
-ggplot(gdata, aes(Year, Value,group=Indicator)) + geom_line(aes(color=Indicator))
-```
-```{r}
-gdata <- data.frame(CostaRica)
-names(gdata) <- c("GDP","Food","Life-F","Life-M","Infant","65-F","65-M","CO2","Exports","Import")
-gdata<-scale(gdata)
-gdata <- as.data.frame.table(gdata)
-names(gdata) <- c("Year","Indicator","Value")
-ggplot(gdata, aes(Year, Value,group=Indicator)) + geom_line(aes(color=Indicator))
-```
-```{r}
-gdata <- data.frame(Venezuela)
-names(gdata) <- c("GDP","Food","Life-F","Life-M","Infant","65-F","65-M","CO2","Exports","Import")
-gdata<-scale(gdata)
-gdata <- as.data.frame.table(gdata)
-names(gdata) <- c("Year","Indicator","Value")
-ggplot(gdata, aes(Year, Value,group=Indicator)) + geom_line(aes(color=Indicator))
-```
-```{r}
-gdata <- data.frame(Tunisia)
-names(gdata) <- c("GDP","Food","Life-F","Life-M","Infant","65-F","65-M","CO2","Exports","Import")
-gdata<-scale(gdata)
-gdata <- as.data.frame.table(gdata)
-names(gdata) <- c("Year","Indicator","Value")
-ggplot(gdata, aes(Year, Value,group=Indicator)) + geom_line(aes(color=Indicator))
-```
-```{r}
-gdata <- data.frame(Ecuador)
-names(gdata) <- c("GDP","Food","Life-F","Life-M","Infant","65-F","65-M","CO2","Exports","Import")
-gdata<-scale(gdata)
-gdata <- as.data.frame.table(gdata)
-names(gdata) <- c("Year","Indicator","Value")
-ggplot(gdata, aes(Year, Value,group=Indicator)) + geom_line(aes(color=Indicator))
+for (cname in listn$Name){
+  crita <- df1$Country_Name == cname
+  temp <- df1[crita,]
+  temp <- temp[,2:ncol(temp)]
+  gdata <- data.frame(temp)
+  names(gdata) <- c("GDP","Food","Life-F","Life-M","Infant","65-F","65-M","CO2","Exports","Import")
+  gdata<-scale(gdata)
+  gdata <- as.data.frame.table(gdata)
+  names(gdata) <- c("Year","Indicator","Value")
+  print(ggplot(gdata, aes(Year, Value,group=Indicator)) + geom_line(aes(color=Indicator)))
+}
 ```
